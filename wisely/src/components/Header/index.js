@@ -16,7 +16,7 @@ const Header = (props) => {
   const [isHidden, setIsHidden] = useState(false);
 
   useEffect( () => {
-    window.addEventListener('scroll', (e) => {
+    const func = (e) => {
       setOldScroll( (prev) => {
         const now = window.scrollY
         if ( prev > now && now > 0) { //올라갔다. 튕겨서 내려오는 경우 제외
@@ -25,8 +25,11 @@ const Header = (props) => {
           setIsHidden(true);
         }
         return now;
-      });
-    })
+      } );
+    }
+    window.addEventListener('scroll', func );
+
+    return () => { window.removeEventListener('scroll', func) };
   }, []);
 
   return (
